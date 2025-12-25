@@ -1,20 +1,53 @@
-# Use the official Python image
-FROM python:3.9-slim
+# Use a base image with PHP and Apache for the web UI
+FROM php:8.2-apache
 
-# Set the working directory
-WORKDIR /app
+# Install system dependencies, Python, and pip
+RUN apt-get update && apt-get install -y \
+    python3 \
+    python3-pip \
+    python3-venv \
+    sqlite3 \
+    libsqlite3-dev \
+    && rm -rf /var/lib/apt/lists/*
 
-# Copy the requirements file
-COPY requirements.txt .
+# Enable Apache modules and SQLite for PHP
+RUN docker-php-ext-install pdo_sqlite
 
-# Install dependencies
-RUN pip install --no-cache-dir -r requirements.txt
+# Set working directory
+WORKDIR /var/www/html
 
-# Copy the application code
-COPY . .
+# Copy all repo files to the web root
+COPY . /var/www/html
 
-# Expose the port the app runs on (if applicable)
-EXPOSE 5000
+# Install Python dependencies
+RUN pip3 install -r requirements.txt
 
-# Command to run the application
-CMD ["python", "your_script.py"]  # Replace 'your_script.py' with the main script of the project
+# Expose ports (default Apache is 80; adjust if needed for tool's --port)
+EXPOSE 80
+
+# Set permissions for scripts and database (adjust paths as per your setup)
+RUN chown -R www-data:www-data /var/www/html \
+    && chmod -R 755 /var/www/html
+
+# Start Apache in the foreground
+CMD ["apache2-foreground"]
+version: '3.8'
+services:
+  stealer-app:
+    build: .
+    ports:
+      - "80:80"
+    volumes:
+      - .:/var/www/html
+    environment:
+      - ENABLE_IP_WHITELIST=true  # Example env var; add Azure creds securely
+version: '3.8'
+services:
+  stealer-app:
+    build: .
+    ports:
+      - "80:80"
+    volumes:
+      - .:/var/www/html
+    environment:
+      - ENABLE_IP_WHITELIST=true  # Example env var; add Azure creds securely
