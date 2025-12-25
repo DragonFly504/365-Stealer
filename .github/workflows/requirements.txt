@@ -1,5 +1,0 @@
-requests
-hurry.filesize
-crayons
-flask
-msal
