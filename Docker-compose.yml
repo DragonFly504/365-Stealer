@@ -1,3 +1,6 @@
+cat > /docker/365-stealers/docker-compose.yml << 'EOF'
+version: "3.8"
+
 version: 
 
 services:
