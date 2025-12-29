@@ -1,7 +1,7 @@
 version: "3.9"
 
 services:
-  my-app:
+  Stealer-app:
     build:
       context: .        # folder where Dockerfile and requirements.txt are
       dockerfile: Dockerfile
