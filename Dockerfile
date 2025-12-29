@@ -1,20 +1,21 @@
-# Use the official Python image
-FROM python:3.9-slim
+FROM python:3.12-slim
 
-# Set the working directory
-WORKDIR /app
+RUN apt-get update && apt-get install -y \
+    apache2 \
+    libapache2-mod-php \
+    php-sqlite3 \
+    php-mbstring \
+    ca-certificates \
+    && rm -rf /var/lib/apt/lists/* \
+    && a2enmod rewrite
 
-# Copy the requirements file
-COPY requirements.txt .
+WORKDIR /var/www/html
 
-# Install dependencies
+COPY . /var/www/html
+
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy the application code
-COPY . .
+RUN chown -R www-data:www-data /var/www/html \
+    && chmod -R 755 /var/www/html
 
-# Expose the port the app runs on (if applicable)
-EXPOSE 8080
-
-# Command to run the application
-CMD ["python", "365-stealer.py"]  # Replace 'your_script.py' with the main script of the project
+EXPOSE 80
