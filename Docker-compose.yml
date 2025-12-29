@@ -6,4 +6,6 @@ services:
     container_name: 365-stealer
     ports:
       - "8080:80"
-    restart: unless-stopped
+    volumes:
+      - .:/var/www/html  # Optional: for live code edits (remove if not needed)
+    restart: unless-stopped  # Optional: auto-restart on failure
