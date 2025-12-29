@@ -1,11 +1,18 @@
-version: 
-
 services:
   stealer-app:
     image: 365-stealer:latest
-    container_name: 365-stealer
+    environment:
+      - ENABLE_IP_WHITELIST=true # Example env var; add Azure creds securely
+    restart: unless-stopped
     ports:
-      - "8081:80"
+      - 8081:80
     volumes:
-      - .:/var/www/html  # Optional: for live code edits (remove if not needed)
-    restart: unless-stopped  # Optional: auto-restart on failure
+      - .:/var/www/html
+    networks:
+      - 365-stealer_default
+      - 365-stealers_default
+networks:
+  365-stealer_default:
+    external: true
+  365-stealers_default:
+    external: true
