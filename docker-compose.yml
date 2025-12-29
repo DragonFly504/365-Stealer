@@ -1,10 +1,10 @@
 version: "3.9"
 
 services:
- stealer-app:
- build:
- context: . # folder where Dockerfile and requirements.txt are
- dockerfile: Dockerfile
- image: 365-stealer-app:latest
- ports:
- - "8080:80" # example; adjust/remove as needed
+  my-app:
+    build:
+      context: .        # folder where Dockerfile and requirements.txt are
+      dockerfile: Dockerfile
+    image: 365-stealer-app:latest
+    ports:
+      - "8080:80"       # maps host port 8080 to container port 80
