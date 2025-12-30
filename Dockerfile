@@ -6,6 +6,7 @@ RUN apt-get update && apt-get install -y \
     php-sqlite3 \
     php-mbstring \
     ca-certificates \
+    curl \
     && rm -rf /var/lib/apt/lists/* \
     && a2enmod rewrite
 
@@ -19,3 +20,6 @@ RUN chown -R www-data:www-data /var/www/html \
     && chmod -R 755 /var/www/html
 
 EXPOSE 80
+
+# 👇 This keeps Apache running in the foreground
+CMD ["apachectl", "-D", "FOREGROUND"]
