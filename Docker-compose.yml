@@ -1,6 +1,6 @@
 services:
-  stealer-app:          # Service name (can be anything)
-    image: 365-stealer-app:latest  # Explicit tag – this fixes "No such image"
+  365-Stealer:          # Service name (can be anything)
+    image: 365-stealer.py:latest  # Explicit tag – this fixes "No such image"
     container_name: stealer-app
     ports:
       - "8081:80"         # Map host port 8081 to container 80
