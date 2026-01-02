@@ -4,9 +4,16 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    restart: unless-stopped
     working_dir: /app
     environment:
       - TZ=UTC
+    restart: unless-stopped
     ports:
-      - "8000:80"
+      - 8000:80
+    volumes:
+      - ./365-Stealer:/var/www/html
+    networks:
+      - 365-stealer504_default
+networks:
+  365-stealer504_default:
+    external: true
